@@ -38,7 +38,13 @@ public class ArrayQueue<E> {
 
     public void enqueue(E e) {
         if (tail == elementData.length) {
-            resize(front == 0 ? size() * 2 : size());
+            int newSize;
+            if (size() != 0) {
+                newSize = front > capacity() / 2 ? capacity() : capacity() * 2;
+            } else {
+                newSize = 1;
+            }
+            resize(newSize);
             tail = size();
             front = 0;
         }
@@ -48,7 +54,7 @@ public class ArrayQueue<E> {
     public E dequeue() {
         if (isEmpty()) throw new IllegalArgumentException();
         E element = elementData[front++];
-        if (size() < capacity() / 4 && size() / 2 > 0) {
+        if (size() < capacity() / 4 && capacity() / 2 > 0) {
             resize(capacity() / 2);
             tail = size();
             front = 0;
@@ -105,16 +111,20 @@ public class ArrayQueue<E> {
         System.out.println("capacity: " + queue.capacity());
         System.out.println("dequeue: " + queue.dequeue());
         System.out.println("queue: " + queue);
-        queue.dequeue();
-        queue.dequeue();
-        queue.dequeue();
-        queue.dequeue();
-        queue.dequeue();
+        for (int i = 0; i < 5; i++) {
+            queue.dequeue();
+        }
         System.out.println("queue: " + queue);
         queue.dequeue();
         System.out.println("queue: " + queue);
         System.out.println("size: " + queue.size());
         System.out.println("capacity: " + queue.capacity());
-        System.out.println(queue.peek());
+        System.out.println("peek: " + queue.peek());
+        queue.dequeue();
+        queue.dequeue();
+        queue.dequeue();
+        System.out.println("queue: " + queue);
+        System.out.println("size: " + queue.size());
+        System.out.println("capacity: " + queue.capacity());
     }
 }
