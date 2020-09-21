@@ -55,5 +55,6 @@ public class ThreeSum {
 
 //1094675895
         sum(arr);
+        br.close();
     }
 }
