@@ -17,4 +17,8 @@ public class Timer {
     public double getTime() {
         return (System.nanoTime() - startTime) / 1000000000.0;
     }
+
+    public void reset() {
+        startTime = System.nanoTime();
+    }
 }
