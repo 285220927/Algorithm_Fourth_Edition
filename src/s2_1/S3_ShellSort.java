@@ -9,7 +9,7 @@ package s2_1;
 
 import java.util.Arrays;
 
-@SuppressWarnings({"WeakerAccess", "unchecked"})
+@SuppressWarnings({"WeakerAccess", "unchecked", "rawtypes"})
 public class S3_ShellSort {
     public static void shellSort(Comparable[] arr) {
         int N = arr.length;

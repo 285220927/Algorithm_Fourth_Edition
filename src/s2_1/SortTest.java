@@ -13,7 +13,7 @@ import utils.Timer;
 import java.util.Arrays;
 import java.util.Random;
 
-@SuppressWarnings({"unchecked", "DuplicatedCode"})
+@SuppressWarnings({"unchecked", "DuplicatedCode", "rawtypes"})
 public class SortTest {
     public static void main(String[] args) {
         int nums = 10000;
@@ -46,6 +46,12 @@ public class SortTest {
         System.out.println("随机数组 " + nums + "次希尔排序耗时" + t.getTime() + "秒");
         ensureSorted(d);
 
+        d = d1.clone();
+        t.reset();
+        S4_MergeSort.mergeSort(d);
+        System.out.println("随机数组 " + nums + "次归并排序耗时" + t.getTime() + "秒");
+        ensureSorted(d);
+
         System.out.println("===============顺序数组测试===============");
         Double[] d2 = getOrderArray(nums);
 
@@ -71,6 +77,12 @@ public class SortTest {
         t.reset();
         S3_ShellSort.shellSort(d);
         System.out.println("顺序数组 " + nums + "次希尔排序耗时" + t.getTime() + "秒");
+        ensureSorted(d);
+
+        d = d2.clone();
+        t.reset();
+        S4_MergeSort.mergeSort(d);
+        System.out.println("顺序数组 " + nums + "次归并排序耗时" + t.getTime() + "秒");
         ensureSorted(d);
 
         System.out.println("===============逆序数组测试===============");
@@ -100,6 +112,12 @@ public class SortTest {
         System.out.println("逆序数组 " + nums + "次希尔排序耗时" + t.getTime() + "秒");
         ensureSorted(d);
 
+        d = d3.clone();
+        t.reset();
+        S4_MergeSort.mergeSort(d);
+        System.out.println("逆序数组 " + nums + "次归并排序耗时" + t.getTime() + "秒");
+        ensureSorted(d);
+
         System.out.println("===============相同数组测试===============");
         Double[] d4 = getReverseArray(nums);
 
@@ -125,6 +143,12 @@ public class SortTest {
         t.reset();
         S3_ShellSort.shellSort(d);
         System.out.println("相同数组 " + nums + "次希尔排序耗时" + t.getTime() + "秒");
+        ensureSorted(d);
+
+        d = d4.clone();
+        t.reset();
+        S4_MergeSort.mergeSort(d);
+        System.out.println("相同数组 " + nums + "次归并排序耗时" + t.getTime() + "秒");
         ensureSorted(d);
     }
 
@@ -158,7 +182,8 @@ public class SortTest {
 
     private static void ensureSorted(Comparable[] arr) {
         for (int i = 1; i < arr.length; i++) {
-            assert arr[i].compareTo(arr[i - 1]) >= 0;
+            if (arr[i].compareTo(arr[i - 1]) < 0)
+                throw new RuntimeException("Array is not ordered!");
         }
     }
 }
