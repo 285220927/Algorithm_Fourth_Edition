@@ -16,6 +16,9 @@ import java.util.Random;
 @SuppressWarnings({"unchecked", "DuplicatedCode", "rawtypes"})
 public class SortTest {
     public static void main(String[] args) {
+        /**
+         * Array.sort方法在元素个数 < 47时使用快速排序 47-286使用插入排序 大于286使用归并排序
+         */
         int nums = 10000;
         Double[] d;
 
@@ -52,6 +55,18 @@ public class SortTest {
         System.out.println("随机数组 " + nums + "次归并排序耗时" + t.getTime() + "秒");
         ensureSorted(d);
 
+        d = d1.clone();
+        t.reset();
+        S5_QuickSort.quickSort1(d);
+        System.out.println("随机数组 " + nums + "次快速排序耗时" + t.getTime() + "秒");
+        ensureSorted(d);
+
+        d = d1.clone();
+        t.reset();
+        S5_QuickSort.quickSort2(d);
+        System.out.println("随机数组 " + nums + "次三路快排耗时" + t.getTime() + "秒");
+        ensureSorted(d);
+
         System.out.println("===============顺序数组测试===============");
         Double[] d2 = getOrderArray(nums);
 
@@ -83,6 +98,18 @@ public class SortTest {
         t.reset();
         S4_MergeSort.mergeSort(d);
         System.out.println("顺序数组 " + nums + "次归并排序耗时" + t.getTime() + "秒");
+        ensureSorted(d);
+
+        d = d2.clone();
+        t.reset();
+        S5_QuickSort.quickSort1(d);
+        System.out.println("顺序数组 " + nums + "次快速排序耗时" + t.getTime() + "秒");
+        ensureSorted(d);
+
+        d = d2.clone();
+        t.reset();
+        S5_QuickSort.quickSort2(d);
+        System.out.println("顺序数组 " + nums + "次三路快排耗时" + t.getTime() + "秒");
         ensureSorted(d);
 
         System.out.println("===============逆序数组测试===============");
@@ -118,8 +145,20 @@ public class SortTest {
         System.out.println("逆序数组 " + nums + "次归并排序耗时" + t.getTime() + "秒");
         ensureSorted(d);
 
+        d = d3.clone();
+        t.reset();
+        S5_QuickSort.quickSort1(d);
+        System.out.println("逆序数组 " + nums + "次快速排序耗时" + t.getTime() + "秒");
+        ensureSorted(d);
+
+        d = d3.clone();
+        t.reset();
+        S5_QuickSort.quickSort2(d);
+        System.out.println("逆序数组 " + nums + "次三路快排耗时" + t.getTime() + "秒");
+        ensureSorted(d);
+
         System.out.println("===============相同数组测试===============");
-        Double[] d4 = getReverseArray(nums);
+        Double[] d4 = getSameArray(nums);
 
         d = d4.clone();
         t.reset();
@@ -149,6 +188,18 @@ public class SortTest {
         t.reset();
         S4_MergeSort.mergeSort(d);
         System.out.println("相同数组 " + nums + "次归并排序耗时" + t.getTime() + "秒");
+        ensureSorted(d);
+
+        d = d4.clone();
+        t.reset();
+        S5_QuickSort.quickSort1(d);
+        System.out.println("相同数组 " + nums + "次快速排序耗时" + t.getTime() + "秒");
+        ensureSorted(d);
+
+        d = d4.clone();
+        t.reset();
+        S5_QuickSort.quickSort2(d);
+        System.out.println("相同数组 " + nums + "次三路快排耗时" + t.getTime() + "秒");
         ensureSorted(d);
     }
 

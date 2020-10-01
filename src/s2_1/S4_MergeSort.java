@@ -29,24 +29,30 @@ public class S4_MergeSort {
     }
 
     private static void merge(Comparable[] arr, int mid, int left, int right) {
+        // 如果左半边的最大值小于等于右半边的最小值，说明当前数组(arr[left: right])有序，不需要归并
+        if (arr[mid].compareTo(arr[mid + 1]) <= 0)
+            return;
         // 将arr复制到aux中
         if (right + 1 - left >= 0)
             System.arraycopy(arr, left, aux, left, right + 1 - left);
 
         int j = mid + 1;
         for (int i = left; i <= right; i++) {
-            if (left > mid)
+            if (left > mid) // 左半边用尽，取右半边
                 arr[i] = aux[j++];
-            else if (j > right)
+            else if (j > right) // 右半边用尽，取左半边
                 arr[i] = aux[left++];
-            else if (aux[j].compareTo(aux[left]) < 0)
+            else if (aux[j].compareTo(aux[left]) < 0) // 右半边的当前元素小于左半边的当前元素，取右半边的元素
                 arr[i] = aux[j++];
-            else
+            else // 左半边的当前元素小于右半边的当前元素，取左半边的元素
                 arr[i] = aux[left++];
         }
     }
 
     public static void main(String[] args) {
+        /**
+         * 归并排序是稳定的，平均和最差时间复杂度为O(NlogN) 最好情况(所有元素都相同)为O(N)
+         */
         Integer[] arr = new Integer[]{2, 4, 6, 8, 0, 9, 7, 5, 3, 1};
         mergeSort(arr);
         System.out.println(Arrays.toString(arr));
