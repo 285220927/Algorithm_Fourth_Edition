@@ -63,14 +63,57 @@ public class S1_SingleSourcePath {
         return false;
     }
 
-//    public boolean hasCycle() {
-//        // 图中是否有环
-//        return hasCycle(0, new int[graph.V()]);
-//    }
-//
-//    private boolean hasCycle(int v, int[] cycle) {
-//
-//    }
+    public boolean hasCycle() {
+        // 图中是否有环
+        boolean[] cycle = new boolean[graph.V()]; // 是否被访问过
+        for (int i = 0; i < graph.V(); i++) {
+            if (!cycle[i]) {
+                if (hasCycle(i, i, cycle))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean hasCycle(int v, int parent, boolean[] cycle) {
+        cycle[v] = true;
+        for (int w: graph.adjacent(v)) {
+            if (!cycle[w]) {
+                if (hasCycle(w, v, cycle))
+                    return true;
+            } else if (w != parent)
+                return true;
+        }
+        return false;
+    }
+
+    public boolean isBipartite() {
+        // 是否是二分图
+        // 0代表一种颜色，1代表另外一种颜色
+        int[] colors = new int[graph.V()];
+        Arrays.fill(colors, 0);
+        // 是否被访问过
+        boolean[] bipartite = new boolean[graph.V()];
+        for (int i = 0; i < graph.V(); i++) {
+            if (!bipartite[i])
+                if (!isBipartite(i, 0, bipartite, colors))
+                    return false;
+        }
+        return true;
+    }
+
+    private boolean isBipartite(int v, int color, boolean[] bipartite, int[] colors) {
+        bipartite[v] = true;
+        colors[v] = color;
+        for (int w: graph.adjacent(v)) {
+            if (!bipartite[w]) {
+                if (!isBipartite(w, 1 - color, bipartite, colors))
+                    return false;
+            } else if (colors[w] == colors[v])
+                return false;
+        }
+        return true;
+    }
 
     public static void main(String[] args) {
         Graph graph = new Graph("src/s4_1/g.txt");
@@ -90,5 +133,17 @@ public class S1_SingleSourcePath {
             else
                 System.out.println("6和" + i + "之间不存在路径");
         }
+
+        System.out.println("----------------------------------------------");
+        if (singleSourcePath.hasCycle())
+            System.out.println("图中有环");
+        else
+            System.out.println("图中没有环");
+        System.out.println("----------------------------------------------");
+        if (singleSourcePath.isBipartite())
+            System.out.println("是二分图");
+        else
+            // 可以拿一个完全图测试
+            System.out.println("不是二分图");
     }
 }
