@@ -60,9 +60,9 @@ public class DoubleLinkedList<T> implements Iterable<T> {
 
     public T append(T item) {
         Node node = new Node(item);
-        if (head == null) {
+        if (head == null)
             head = node;
-        } else {
+        else {
             Node cur = head;
             while (cur.next != null) {
                 cur = cur.next;
@@ -77,9 +77,9 @@ public class DoubleLinkedList<T> implements Iterable<T> {
     public T insert(int index, T item) {
         assert index >= 0 && index < size() + 1;
 
-        if (index == size()) {
+        if (index == size())
             append(item);
-        } else {
+        else {
             Node node = new Node(item);
             if (head == null) {
                 // index == 0
@@ -120,9 +120,8 @@ public class DoubleLinkedList<T> implements Iterable<T> {
                 cur = cur.next;
             }
             ret = cur.item;
-            if (cur.next != null) {
+            if (cur.next != null)
                 cur.next.prev = cur.prev;
-            }
             cur.prev.next = cur.next;
         }
         size--;
@@ -134,9 +133,8 @@ public class DoubleLinkedList<T> implements Iterable<T> {
         int count = 0;
         Node cur = head;
         while (cur != null) {
-            if (cur.item.equals(item)) {
+            if (cur.item.equals(item))
                 return count;
-            }
             cur = cur.next;
             count++;
         }
@@ -176,13 +174,15 @@ public class DoubleLinkedList<T> implements Iterable<T> {
         // 就地反转递归实现
         // 《Algorithms Fourth Edition》 P104
         // https://developer.51cto.com/art/202003/613490.htm
-        if (head == null || head.next == null) return;
+        if (head == null || head.next == null)
+            return;
 
         reverse3(head);
     }
 
     public Node reverse3(Node node) {
-        if (node == null || node.next == null) return node;
+        if (node == null || node.next == null)
+            return node;
         Node recursive = reverse3(node.next);
         node.next.next = node;
         node.prev = node.next;
@@ -191,16 +191,18 @@ public class DoubleLinkedList<T> implements Iterable<T> {
     }
 
     public T max1() {
-        if (head == null) return null;
-        if (head.next == null) return head.item;
-        if (!(head.item instanceof Comparable)) throw new IllegalArgumentException("the argument cannot be compared");
+        if (head == null)
+            return null;
+        if (head.next == null)
+            return head.item;
+        if (!(head.item instanceof Comparable))
+            throw new IllegalArgumentException("the argument cannot be compared");
 
         T maxVal = head.item;
         Node cur = head.next;
         while (cur != null) {
-            if (((Comparable) cur.item).compareTo(maxVal) > 0) {
+            if (((Comparable) cur.item).compareTo(maxVal) > 0)
                 maxVal = cur.item;
-            }
             cur = cur.next;
         }
         return maxVal;
@@ -208,9 +210,12 @@ public class DoubleLinkedList<T> implements Iterable<T> {
 
     public T max2() {
         // 递归实现
-        if (head == null) return null;
-        if (head.next == null) return head.item;
-        if (!(head.item instanceof Comparable)) throw new IllegalArgumentException("the argument cannot be compared");
+        if (head == null)
+            return null;
+        if (head.next == null)
+            return head.item;
+        if (!(head.item instanceof Comparable))
+            throw new IllegalArgumentException("the argument cannot be compared");
 
         return max2(head, head.item);
     }
@@ -218,6 +223,14 @@ public class DoubleLinkedList<T> implements Iterable<T> {
     private T max2(Node node, T maxVal) {
         if (node == null) return maxVal;
         return max2(node.next, ((Comparable) node.item).compareTo(maxVal) > 0 ? node.item : maxVal);
+    }
+
+    public boolean contains(T t) {
+        for (T e : this) {
+            if (t.equals(e))
+                return true;
+        }
+        return false;
     }
 
     @Override
