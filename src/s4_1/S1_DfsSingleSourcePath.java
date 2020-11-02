@@ -9,13 +9,13 @@ package s4_1;
 
 import java.util.*;
 
-public class S1_SingleSourcePath {
-    // 单源路径搜索
+public class S1_DfsSingleSourcePath {
+    // 深度优先单源路径搜索
     private final Graph graph;
     private final int source;
     private final int[] visited; // int数组，存放该节点的上一个节点，初始为-1
 
-    public S1_SingleSourcePath(Graph graph, int source) {
+    public S1_DfsSingleSourcePath(Graph graph, int source) {
         this.graph = graph;
         this.source = source;
         visited = new int[graph.V()];
@@ -117,7 +117,7 @@ public class S1_SingleSourcePath {
 
     public static void main(String[] args) {
         Graph graph = new Graph("src/s4_1/g.txt");
-        S1_SingleSourcePath singleSourcePath = new S1_SingleSourcePath(graph, 0);
+        S1_DfsSingleSourcePath singleSourcePath = new S1_DfsSingleSourcePath(graph, 0);
         System.out.println(Arrays.toString(singleSourcePath.visited));
         for (int i = 0; i < graph.V(); i++) {
             if (singleSourcePath.hasPath(i))
@@ -126,7 +126,7 @@ public class S1_SingleSourcePath {
                 System.out.println("0和" + i + "之间不存在路径");
         }
         System.out.println("----------------------------------------------");
-        S1_SingleSourcePath singleSourcePath2 = new S1_SingleSourcePath(graph, 6);
+        S1_DfsSingleSourcePath singleSourcePath2 = new S1_DfsSingleSourcePath(graph, 6);
         for (int i = 0; i < graph.V(); i++) {
             if (singleSourcePath2.hasPath(i))
                 System.out.println("6和" + i + "之间存在路径: " + singleSourcePath2.path(i));

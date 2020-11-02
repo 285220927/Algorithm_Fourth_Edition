@@ -30,13 +30,13 @@ public class S2_BfsSingleSourcePath {
         if (queue.isEmpty())
             return;
         int e = queue.remove();
-        for (int w: graph.adjacent(e)) {
+        for (int w : graph.adjacent(e)) {
             if (visited[w] == -1) {
                 visited[w] = e;
                 queue.add(w);
-                bfs();
             }
         }
+        bfs();
     }
 
     public Iterable<Integer> path(int target) {
@@ -53,16 +53,50 @@ public class S2_BfsSingleSourcePath {
         return pathList;
     }
 
+    public boolean hasPath(int target) {
+        return hasPath(target, new boolean[graph.V()], new LinkedList<Integer>() {{
+            add(source);
+        }});
+    }
+
+    private boolean hasPath(int target, boolean[] visited, Queue<Integer> queue) {
+        if (queue.isEmpty())
+            return false;
+        Integer v = queue.poll();
+        if (v == target)
+            return true;
+        visited[v] = true;
+        for (int w : graph.adjacent(v)) {
+            if (!visited[w]) {
+                queue.add(w);
+                if (hasPath(target, visited, queue))
+                    return true;
+            }
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
+        // 广度优先遍历的得到的路径是无向无权图的最短路径
         Graph graph = new Graph("src/s4_1/g.txt");
         S2_BfsSingleSourcePath singleSourcePath1 = new S2_BfsSingleSourcePath(graph, 0);
+        System.out.println(Arrays.toString(singleSourcePath1.visited));
         for (int i = 0; i < graph.V(); i++) {
-            System.out.println("0到" + i + "的路径为: " + singleSourcePath1.path(i));
+            if (singleSourcePath1.hasPath(i)) {
+                System.out.println("0到" + i + "的路径为: " + singleSourcePath1.path(i));
+            } else {
+                System.out.println("0到" + i + "之间没有路径");
+            }
         }
-
+        System.out.println("----------------------------------------------");
         S2_BfsSingleSourcePath singleSourcePath2 = new S2_BfsSingleSourcePath(graph, 6);
+        System.out.println(Arrays.toString(singleSourcePath2.visited));
         for (int i = 0; i < graph.V(); i++) {
-            System.out.println("6到" + i + "的路径为: " + singleSourcePath2.path(i));
+            if (singleSourcePath2.hasPath(i)) {
+                System.out.println("6到" + i + "的路径为: " + singleSourcePath2.path(i));
+            } else {
+                System.out.println("6到" + i + "之间没有路径");
+            }
         }
     }
 }
