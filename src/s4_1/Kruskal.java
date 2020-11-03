@@ -15,12 +15,10 @@ public class Kruskal {
     // 无向有权图的最小生成树
     // Kruskal算法首先按权重对边进行排序，从权重最小的边开始，如果加入该边之后图中没有出现环，那么该边一定是最小生成树中的一边
     // O(ElogE)的时间复杂度，其中排序占的时间最多为O(ElogE)，判断是否是连通图为O(V + E) 是线性级别，最后使用并查集判断两点是否连通，是接近O(1)的复杂度
-    private final List<WeightedEdge> mst; // 最小生成树的边
+    private final List<WeightedEdge> mst = new ArrayList<>(); // 最小生成树的边
 
     public Kruskal(WeightedGraph G) {
         // 这里忽略连通分量的判断，要求图的最小生成树，整个图必须要是连通的
-        mst = new ArrayList<>();
-
         List<WeightedEdge> edges = new ArrayList<>();
         for (int v = 0; v < G.V(); v++)
             for (int w: G.adjacent(v))
