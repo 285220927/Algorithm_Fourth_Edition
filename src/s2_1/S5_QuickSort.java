@@ -30,13 +30,14 @@ public class S5_QuickSort {
         // 切分
         Comparable mid = arr[left];
         while (left < right) {
-            while (left < right && arr[left].compareTo(mid) <= 0)
-                left++;
             while (left < right && arr[right].compareTo(mid) >= 0)
                 right--;
-            Comparable temp = arr[left];
-            arr[left] = arr[right];
-            arr[right] = temp;
+            if (left < right)
+                arr[left] = arr[right];
+            while (left < right && arr[left].compareTo(mid) <= 0)
+                left++;
+            if (left < right)
+                arr[right] = arr[left];
         }
         arr[left] = mid;
         return left;
@@ -76,8 +77,8 @@ public class S5_QuickSort {
          * 快速排序
          * 如果切分不平衡，会使程序非常低效，如已经有序的数组，第一次切分的结果索引为0，第二次为1，第三次为2... 可以在排序前打乱数组或者使用三路快排
          */
-        Integer[] arr = new Integer[]{2, 4, 6, 8, 0, 9, 7, 5, 3, 1};
-        quickSort2(arr);
+        Integer[] arr = new Integer[]{0, 4, 6, 8, 0, 9, 7, 5, 3, 1, 0};
+        quickSort1(arr);
         System.out.println(Arrays.toString(arr));
     }
 }

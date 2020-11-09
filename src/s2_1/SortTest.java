@@ -19,7 +19,7 @@ public class SortTest {
         /**
          * Array.sort方法在元素个数 < 47时使用快速排序 47-286使用插入排序 大于286使用归并排序
          */
-        int nums = 10000;
+        int nums = 100000;
         Double[] d;
 
         System.out.println("===============随机数组测试===============");
@@ -229,8 +229,9 @@ public class SortTest {
 
     private static Double[] getRandomArray(int nums) {
         Double[] d = new Double[nums];
-        for (int i = 0; i < nums; i++)
+        for (int i = 0; i < nums; i++) {
             d[i] = new Random().nextDouble();
+        }
         return d;
     }
 
