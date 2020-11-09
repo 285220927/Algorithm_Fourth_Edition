@@ -52,7 +52,7 @@ public class BreadthFirstSearch {
     public static void main(String[] args) {
         // 广度优先遍历O(V + E)的时间复杂度
         // dfs和bfs相同，区别在于在非递归实现时，dfs需要使用栈，bfs需要使用队列
-        BreadthFirstSearch bfs = new BreadthFirstSearch(new Graph("src/s4_1/g.txt"));
+        BreadthFirstSearch bfs = new BreadthFirstSearch(new Graph("src/s4_1/direct_g.txt"));
         System.out.println(bfs.pre());
     }
 }

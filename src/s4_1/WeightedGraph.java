@@ -15,12 +15,13 @@ import java.util.TreeMap;
 
 @SuppressWarnings("unchecked")
 public class WeightedGraph {
-    // 无向有权图
     private int V; // 顶点数目 vertex
     private int E; // 边数目 edge
+    private final boolean directed;
     private TreeMap<Integer, Integer>[] adjacencyList; // 邻接表 可以用HashSet 用set代表忽略平行边
 
-    public WeightedGraph(String filepath) {
+    public WeightedGraph(String filepath, boolean directed) {
+        this.directed = directed;
         File file = new File(filepath);
         try (Scanner scanner = new Scanner(file)) {
             V = scanner.nextInt();
@@ -36,6 +37,10 @@ public class WeightedGraph {
         }
     }
 
+    public WeightedGraph(String filepath) {
+        this(filepath, false);
+    }
+
     public int V() {
         return V;
     }
@@ -47,12 +52,14 @@ public class WeightedGraph {
     public void addEdge(int v, int w, int weight) {
         // 将顶点v和顶点w相连，形成一条边
         adjacencyList[v].put(w, weight);
-        adjacencyList[w].put(v, weight);
+        if (!directed)
+            adjacencyList[w].put(v, weight);
     }
 
     public void removeEdge(int v, int w) {
         adjacencyList[v].remove(w);
-        adjacencyList[w].remove(v);
+        if (!directed)
+            adjacencyList[w].remove(v);
     }
 
     public Iterable<Integer> adjacent(int v) {
@@ -67,12 +74,18 @@ public class WeightedGraph {
     }
 
     public int degree(int v) {
+        if (directed)
+            throw new IllegalArgumentException("degree only works in undirected graph");
         return adjacencyList[v].size();
     }
 
     public boolean hasEdge(int v, int w) {
         // 返回两个顶点之间是否有边
         return adjacencyList[v].containsKey(w);
+    }
+
+    public boolean isDirected() {
+        return directed;
     }
 
     @Override
@@ -98,7 +111,7 @@ public class WeightedGraph {
     }
 
     public static void main(String[] args) {
-        WeightedGraph graph = new WeightedGraph("src/s4_1/weighted_g.txt");
+        WeightedGraph graph = new WeightedGraph("src/s4_1/dijkstra_g.txt", true);
         System.out.println(graph);
     }
 }

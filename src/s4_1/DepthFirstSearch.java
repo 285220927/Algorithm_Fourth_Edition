@@ -36,7 +36,7 @@ public class DepthFirstSearch {
         for (int w: graph.adjacent(v))
             if (visited[w] == -1)
                 dfs(w);
-        post.add(v); // 图的深度优先后序遍历
+        post.add(v); // 图的深度优先后序遍历 先遍历完其他所有，再遍历它自身，可以用于有向图的拓扑排序(需要提前检测是否有环)
     }
 
     public boolean isConnected(int s,int w) {
