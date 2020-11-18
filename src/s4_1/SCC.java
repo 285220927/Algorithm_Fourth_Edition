@@ -21,6 +21,7 @@ public class SCC {
         this.id = new int[G.V()];
         this.visited = new boolean[G.V()];
         Graph reverseG = G.reverse();
+        // 原图的后序遍历不等于反转图的后序遍历的逆序!
         for (int v : new DirectedGraphDfs(reverseG).reversePost()) {
             if (!visited[v]) {
                 count++;
