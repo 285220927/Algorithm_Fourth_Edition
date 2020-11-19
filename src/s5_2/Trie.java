@@ -10,8 +10,7 @@ package s5_2;
 import java.util.*;
 
 public class Trie {
-    private final Node root;
-    private int size;
+    private Node root;
 
     private static class Node {
         public boolean isWord;
@@ -40,7 +39,6 @@ public class Trie {
             cur = cur.next.get(c);
         }
         cur.isWord = true;
-        size++;
     }
 
     public boolean contains(String word) {
@@ -80,12 +78,56 @@ public class Trie {
             keysWithPrefix(entry.getValue(), pre + entry.getKey(), res);
     }
 
+    public Iterable<String> match(String word) {
+        // 通配符匹配
+        List<String> res = new ArrayList<>();
+        match(root, word, "", res);
+        return res;
+    }
+
+    private void match(Node node, String word, String pre, List<String> res) {
+        if (node == null)
+            return;
+        if (word.length() == pre.length() && node.isWord)
+            res.add(pre);
+        if (word.length() == pre.length())
+            return;
+        char next = word.charAt(pre.length());
+        for (char c : node.next.keySet())
+            if (next == '.' || next == c)
+                match(node.next.get(c), word, pre + c, res);
+    }
+
+    public void remove(String word) {
+        root = remove(root, word, 0);
+    }
+
+    private Node remove(Node node, String word, int index) {
+        if (node == null)
+            return null;
+        if (index == word.length())
+            node.isWord = false;
+        else {
+            char c = word.charAt(index);
+            node.next.put(c, remove(node.next.get(c), word, index + 1));
+        }
+        if (!node.isWord)
+            return node;
+        for (char c : node.next.keySet())
+            if (node.next.get(c) != null)
+                return node;
+        return null;
+    }
+
     public static void main(String[] args) {
         Trie trie = new Trie();
-        String[] arr = {"abc", "ab", "aa", "adc", "acd", "a", "abcd", "bac"};
+        String[] arr = {"sea", "sells", "she", "shells"};
+//        String[] arr = {"aa", "ab"};
         for (String s : arr)
             trie.add(s);
 
-        System.out.println(trie.keysWithPrefix("a"));
+        System.out.println(trie.keys());
+        trie.remove("shells");
+        System.out.println(trie.keys());
     }
 }
